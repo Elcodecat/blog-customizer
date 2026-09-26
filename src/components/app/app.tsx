@@ -15,10 +15,6 @@ export const App = (): React.JSX.Element => {
   const [articleState, setArticleState] =
     useState<ArticleStateType>(defaultArticleState);
 
-  const handleApply = (state: ArticleStateType): void => {
-    setArticleState(state);
-  };
-
   return (
     <main
       className={clsx(styles.main)}
@@ -32,7 +28,7 @@ export const App = (): React.JSX.Element => {
         } as CSSProperties
       }
     >
-      <ArticleParamsForm articleState={articleState} onApply={handleApply} />
+      <ArticleParamsForm articleState={articleState} onApply={setArticleState} />
       <Article />
     </main>
   );

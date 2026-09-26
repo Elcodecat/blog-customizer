@@ -29,33 +29,41 @@ export const ArticleParamsForm = ({
   onApply,
 }: ArticleParamsFormProps): React.JSX.Element => {
   const [formState, setFormState] = useState<ArticleStateType>(articleState);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const [isSidebarOpen, setIsOpen] = useState<boolean>(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const overlayElement = overlayRef.current;
-
-    if (!isOpen || !overlayElement) {
+    if (!isSidebarOpen) {
       return undefined;
     }
 
-    const handleOverlayClick = (): void => {
+    const handleDocumentClick = (event: MouseEvent): void => {
+      const target = event.target;
+
+      if (
+        target instanceof Node &&
+        (formRef.current?.contains(target) || triggerRef.current?.contains(target))
+      ) {
+        return;
+      }
+
       setIsOpen(false);
     };
 
-    overlayElement.addEventListener('click', handleOverlayClick);
+    document.addEventListener('click', handleDocumentClick);
 
     return (): void => {
-      overlayElement.removeEventListener('click', handleOverlayClick);
+      document.removeEventListener('click', handleDocumentClick);
     };
-  }, [isOpen]);
+  }, [isSidebarOpen]);
 
   const handleToggle = (): void => {
     setIsOpen((open) => !open);
   };
 
   const handleChange =
-    (key: keyof ArticleStateType): ((value: OptionType) => void) =>
+    (key: keyof ArticleStateType) =>
     (value: OptionType): void => {
       setFormState((state) => ({
         ...state,
@@ -77,16 +85,21 @@ export const ArticleParamsForm = ({
 
   return (
     <>
-      <ArrowButton isOpen={isOpen} onClick={handleToggle} />
-
-      {isOpen && <div className={styles.overlay} ref={overlayRef} />}
+      <div ref={triggerRef}>
+        <ArrowButton isOpen={isSidebarOpen} onClick={handleToggle} />
+      </div>
 
       <aside
         className={clsx(styles.container, {
-          [styles.container_open]: isOpen,
+          [styles.container_open]: isSidebarOpen,
         })}
       >
-        <form className={styles.form} onSubmit={handleSubmit} onReset={handleReset}>
+        <form
+          ref={formRef}
+          className={styles.form}
+          onSubmit={handleSubmit}
+          onReset={handleReset}
+        >
           <Text size={31} weight={800}>
             Параметры статьи
           </Text>
