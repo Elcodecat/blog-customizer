@@ -1,38 +1,39 @@
 .container {
-	position: fixed;
-	top: 31px;
-	display: flex;
-	flex-shrink: 0;
-	justify-content: center;
-	align-items: center;
-	box-sizing: border-box;
-	width: 100px;
-	height: 100px;
-	background-color: #000;
-	border-right: 1px;
-	transition: transform 0.5s ease;
+  position: fixed;
+  top: 31px;
+  z-index: 3;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+  background-color: #000;
+  border-right: 1px;
+  transition: transform 0.5s ease;
 }
 
 .container:hover {
-	background-color: #ffc802;
+  background-color: #ffc802;
 }
 
 .container:active {
-	background-color: #787878;
+  background-color: #787878;
 }
 
 .container_open {
-	transform: translate(616px);
+  transform: translate(616px);
 }
 
 .arrow {
-	flex-shrink: 0;
-	width: 48px;
-	height: 48px;
-	transform: rotate(180deg);
-	transition: transform 0.5s ease;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  transform: rotate(180deg);
+  transition: transform 0.5s ease;
 }
 
 .arrow_open {
-	transform: rotate(0deg);
+  transform: rotate(0deg);
 }
